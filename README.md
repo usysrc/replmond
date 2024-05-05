@@ -7,13 +7,14 @@ Ideas on how to create luajit REPL app. Apps that live in the REPL itself!
 Start luajit:
 
 ```
-luajit
+luajit todo.lua
 ```
 
 Then require the `todo` file and start using it line by line:
 
 ```lua
-todo = require "todo"
 todo "Buy milk"
-todo.display()
+display
 ```
+
+The repl automagically adds parens for singled commands as a shorthand execution of functions.

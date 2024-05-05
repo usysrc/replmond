@@ -1,16 +1,6 @@
 local todos = {}
 local dones = {}
 
-local todo = function(a)
-    table.insert(todos, a)
-end
-
-local display = function(t)
-    for i, v in ipairs(t or todos) do
-        print(i, v)
-    end
-end
-
 local done = function(a)
     local idx = 0
     for i, v in ipairs(todos) do
@@ -28,7 +18,11 @@ local save = function()
         f:write(v .. "\n")
     end
     f:close()
-    print("Saved")
+end
+
+local todo = function(a)
+    table.insert(todos, a)
+    save()
 end
 
 local load = function()
@@ -41,17 +35,25 @@ local load = function()
     end
 end
 
+local display = function(t)
+    for i, v in ipairs(t or todos) do
+        print(i, v)
+    end
+end
+
+
 load()
 
-return setmetatable({
+
+local environment = {
+    print = print,
     todo = todo,
     display = display,
     done = done,
     dones = dones,
     save = save,
     load = load,
-}, {
-    __call = function(self, a)
-        return todo(a)
-    end
-})
+}
+
+local repl = require("repl")
+repl.start(environment)
